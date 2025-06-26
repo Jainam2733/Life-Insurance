@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<!-- The `scroll-smooth` class enables smooth scrolling when navigating with anchor links. -->
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <!--
+      THIS IS THE MOST IMPORTANT TAG FOR RESPONSIVE DESIGN.
+      `width=device-width` sets the page width to the screen width of the device.
+      `initial-scale=1.0` sets the initial zoom level to 100%, preventing the page from looking zoomed out on mobile.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Life Insurance Industry: A Presentation</title>
+    <!-- Loading Tailwind CSS, a utility-first framework that makes responsive design easy. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Loading Chart.js for creating responsive charts. -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Loading D3.js and TopoJSON for the responsive world map. -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/topojson-client@3"></script>
+    <!-- Loading custom fonts from Google Fonts for a consistent look across browsers and OS. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles are defined here. These apply to all screen sizes unless overridden by responsive utilities. */
+        body {
+            font-family: 'Lora', serif;
+            background-color: #F8F5F2;
+            color: #4A4A4A;
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 0.75rem;
+            margin-bottom: 2rem;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: #A67B5B;
+        }
+        .story-card {
+            background-color: #FFFFFF;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border-left: 5px solid #A67B5B;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle at top left, rgba(166, 123, 91, 0.1) 0%, rgba(166, 123, 91, 0) 70%);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+        }
+        .story-card-icon {
+            margin-bottom: 1rem;
+            color: #A67B5B;
+            position: relative;
+            z-index: 1;
+        }
+
+        .kpi {
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid #EAEAEA;
+        }
+        .kpi-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        .kpi-label {
+            font-size: 0.9rem;
+            color: #6B7280;
+        }
+        /* Chart containers are set to 100% width, so they will scale with their parent element. */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+        }
+        .chart-card {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        .future-card {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border-top: 5px solid;
+            display: flex;
+            flex-direction: column;
+        }
+         .future-card-one-pager {
+            background-color: #FFFFFF;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            border-top: 6px solid;
+            /* `grid-column: 1 / -1;` makes this element span the full width of the grid container. */
+            grid-column: 1 / -1;
+        }
+        .future-card-icon {
+            height: 30px;
+            width: 30px;
+            margin-right: 0.75rem;
+        }
+        .future-card-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+        .future-card ul {
+            list-style-position: inside;
+            padding-left: 0.5rem;
+            flex-grow: 1;
+        }
+        .future-card-heading {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        #worldMap {
+            width: 100%;
+            height: 500px;
+            margin: 0 auto;
+            border-radius: 1rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            background-color: #E0F7FA;
+        }
+        #worldMap svg {
+            background-color: #E0F7FA;
+        }
+        .country {
+            stroke: #ffffff;
+            stroke-width: 0.5px;
+            cursor: pointer;
+            transition: fill 0.3s ease;
+        }
+        .country:hover {
+            opacity: 0.8;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: auto;
+            height: auto;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            border-radius: 5px;
+            pointer-events: none;
+            font-size: 0.8em;
+            line-height: 1.5;
+            z-index: 1000;
+        }
+        .pictogram-container {
+            position: relative;
+            width: 100%;
+            height: 350px;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            padding: 20px 0;
+            box-sizing: border-box;
+        }
+        .pictogram-column {
+            display: flex;
+            flex-direction: column-reverse;
+            align-items: center;
+            justify: flex-end;
+            margin: 0 10px;
+        }
+        .pictogram-icon-group {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .pictogram-icon-group svg {
+            width: 30px;
+            height: 30px;
+        }
+        .pictogram-label {
+            font-size: 0.9rem;
+            color: #6B7280;
+            margin-top: 10px;
+        }
+        .pictogram-unit-legend {
+            font-size: 0.85rem;
+            color: #6B7280;
+            text-align: center;
+            margin-top: 10px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="text-center py-12 bg-white shadow-sm">
+        <div class="container mx-auto px-6">
+            <!--
+              RESPONSIVE TYPOGRAPHY:
+              `text-5xl` is the base font size (for mobile).
+              `md:text-6xl` increases the font size on medium screens (tablets) and larger.
+            -->
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-800 tracking-tight">The Story of Indian Life Insurance</h1>
+            <p class="mt-4 text-xl text-gray-600 max-w-3xl mx-auto">An industry's journey from nascent stages to a pivotal economic force.</p>
+        </div>
+    </header>
+
+    <!-- The `container`, `mx-auto`, and `px-6` classes create a centered, flexible-width container with padding. -->
+    <main class="container mx-auto px-6 py-16 md:py-24">
+
+        <section id="introduction" class="mb-20 md:mb-28">
+            <h2 class="text-4xl font-bold text-center section-title">An Industry at a Crossroads</h2>
+            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700">
+                The Indian life insurance sector presents a compelling narrative of immense potential tempered by persistent challenges. Projected to grow at over 10% annually, it stands as a beacon of financial expansion. However, this rapid growth is shadowed by a significant coverage gap, leaving a vast portion of the population underinsured. This presentation unfolds the story of its robust performance, the transformative reforms shaping its path, and the fundamental quest to secure every Indian's future.
+            </p>
+            <!--
+              RESPONSIVE GRID LAYOUT:
+              `grid-cols-1` makes this a single-column layout on mobile.
+              `md:grid-cols-3` changes it to a three-column layout on medium screens and up.
+              This is a core concept of responsive design.
+            -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div class="kpi">
+                    <div class="kpi-value text-green-600">10.5%</div>
+                    <div class="kpi-label">Projected Annual Growth</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-value text-red-500">3.7%</div>
+                    <div class="kpi-label">Insurance Penetration (FY24)</div>
+                </div>
+                <div class="kpi">
+                    <div class="kpi-value text-blue-600">$95</div>
+                    <div class="kpi-label">Insurance Density (FY24)</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="market" class="mb-20 md:mb-28">
+            <h2 class="text-4xl font-bold text-center section-title">Market Snapshot: A Picture of Health</h2>
+            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+                The industry demonstrates robust financial health, with key metrics showing a consistent upward trajectory. This reflects a growing market and increasing consumer engagement with insurance products.
+            </p>
+            <!-- `grid-cols-1` for mobile, `lg:grid-cols-2` for large screens. The layout adapts. -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div class="chart-card">
+                    <h3 class="text-xl font-semibold mb-1 text-center">Soaring Premiums: A Testament to Trust</h3>
+                    <div id="totalPremiumPictogram" class="pictogram-container"></div>
+                    <p class="text-sm text-gray-600 mt-4 text-center">
+                        The consistent year-over-year increase in total premium income, rising from ₹5.7 lakh crore in FY20 to nearly ₹8.3 lakh crore in FY24, underscores a powerful trend. This isn't just growth; it signifies expanding market reach and, more importantly, a deepening trust among consumers in the value of life insurance as a cornerstone of financial security.
+                    </p>
+                </div>
+                <div class="chart-card">
+                    <h3 class="text-xl font-semibold mb-1 text-center">Expanding the Safety Net: Policy Growth</h3>
+                    <div id="newPoliciesPictogram" class="pictogram-container"></div>
+                    <p class="text-sm text-gray-600 mt-4 text-center">
+                        The steady climb in new policies issued, from 27 million in FY20 to over 36 million in FY24, is a direct indicator of increasing public awareness. This metric highlights the industry's success in broadening its customer base and making critical financial protection accessible to more Indians, a vital step towards closing the nation's coverage gap.
+                    </p>
+                </div>
+                <div class="chart-card">
+                    <h3 class="text-xl font-semibold mb-1 text-center">Fueling the Economy: AUM on the Rise</h3>
+                    <div id="aumPictogram" class="pictogram-container"></div>
+                    <p class="text-sm text-gray-600 mt-4 text-center">
+                        The remarkable growth in Assets Under Management (AUM) from ₹31 lakh crore to ₹45 lakh crore in just five years showcases the industry's immense contribution to the national economy. This accumulation of long-term capital is not only a sign of a healthy sector but also a critical source of funding for infrastructure and national development.
+                    </p>
+                </div>
+                <div class="chart-card">
+                     <h3 class="text-xl font-semibold mb-1 text-center">The Engine of Expansion: New Business Momentum</h3>
+                    <div id="newBusinessPremiumPictogram" class="pictogram-container"></div>
+                    <p class="text-sm text-gray-600 mt-4 text-center">
+                        The upward trajectory of new business premium, increasing from ₹1.8 lakh crore to ₹2.8 lakh crore, reflects the industry's dynamism. This growth is a clear signal of strong sales performance, effective market penetration strategies, and a robust, ongoing demand for innovative insurance products that meet evolving consumer needs.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="coverage" class="mb-20 md:mb-28">
+            <h2 class="text-4xl font-bold text-center section-title">The Great Indian Insurance Paradox</h2>
+            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+                Despite a strong economy and growing market, a significant protection gap persists. This paradox highlights deep-seated structural barriers that hinder widespread insurance adoption across the country.
+            </p>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12">
+                 <!-- The `lg:col-span-2` class makes this card span both columns on large screens. -->
+                <div class="chart-card lg:col-span-2">
+                    <h3 class="text-xl font-semibold text-center mb-4">India's Slow March: The Story of Penetration & Density</h3>
+                    <!--
+                      RESPONSIVE FLEXBOX:
+                      `flex-col` stacks items vertically (mobile).
+                      `md:flex-row` places items side-by-side on medium screens and up.
+                    -->
+                    <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-3/5">
+                            <div class="chart-container">
+                                <canvas id="penetrationDensityCombinedChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="w-full md:w-2/5">
+                            <p class="text-sm text-gray-600 text-center md:text-left">
+                                A concerning stagnation emerges from the data. While both insurance penetration (premium as % of GDP) and density (premium per capita) show some growth, the pace remains sluggish, with a notable dip in overall penetration in FY24. It's a stark illustration of the core challenge: despite a growing economy, insurance is not deepening its reach or becoming more accessible to the average Indian at the pace required to close the protection gap.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-card lg:col-span-2">
+                    <h3 class="text-xl font-semibold text-center mb-4">A Global Perspective: India's Protection Gap on the World Stage</h3>
+                     <div class="flex flex-col md:flex-row items-center gap-8">
+                        <div class="w-full md:w-3/5">
+                            <div id="worldMap" class="chart-container" style="height: 500px;"></div>
+                        </div>
+                        <div class="w-full md:w-2/5">
+                            <p class="text-sm text-gray-600 text-center md:text-left">
+                                Placed in a global context, India's insurance metrics reveal a stark reality. The country's lighter shade, compared to the deep greens of developed nations like the US and UK, visually represents its low penetration rate. The vast disparity in density is even more telling—India's $95 per capita premium is dwarfed by figures in the thousands elsewhere. It's not just a data point; it's a map of vulnerability, showing how far the nation must travel to achieve global standards of financial security for its citizens.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <h3 class="text-3xl font-bold text-center mt-16 mb-8">Why the Gap?</h3>
+             <!-- This grid adapts from 1 to 2 to 3 columns as the screen size increases. -->
+             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Lack of Awareness</h3>
+                    <p>A major hurdle, especially in rural areas, where insurance is often seen as a complex luxury rather than a fundamental necessity.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Perception of Cost</h3>
+                    <p>Premiums are often viewed as an expense rather than a long-term investment in security, especially among lower-income groups.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Trust Deficit</h3>
+                    <p>Complex claims processes and historical issues have created skepticism, making potential customers hesitant to invest.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="growth" class="mb-20 md:mb-28">
+            <h2 class="text-4xl font-bold text-center section-title">The Engine of Growth</h2>
+            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+                A confluence of powerful forces is propelling the industry forward. These catalysts are not merely expanding the market; they are fundamentally redefining how insurance is perceived, purchased, and delivered across the nation.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Economic Prosperity</h3>
+                    <p>Rising disposable incomes and an expanding middle class are creating a fertile ground for financial planning and security products.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Heightened Awareness</h3>
+                    <p>The post-pandemic world has instilled a deeper public consciousness about financial security and the critical need for protection.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Supportive Reforms</h3>
+                    <p>Proactive policies from IRDAI, including liberalized FDI norms, are fostering a more competitive and attractive market landscape.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Digital Revolution</h3>
+                    <p>Technology is revolutionizing every facet of the industry, from distribution and underwriting to claims, enhancing accessibility and efficiency.</p>
+                </div>
+                 <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Government Initiatives</h3>
+                    <p>Schemes like PM-JAY are extending basic coverage to millions, building a foundational culture of insurance from the ground up.</p>
+                </div>
+                 <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Insurtech Innovation</h3>
+                    <p>New, customer-centric models like embedded and parametric insurance are making products more relevant and user-friendly than ever before.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="future" class="text-center mb-20 md:mb-28">
+             <h2 class="text-4xl font-bold text-center section-title">Forging the Future</h2>
+            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+                The road ahead is paved with ambition. Landmark mergers, progressive FDI policies, and sweeping regulatory reforms are not just incremental changes—they are foundational shifts towards a more dynamic, inclusive, and customer-centric insurance ecosystem for India.
+            </p>
+            <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <div class="future-card-one-pager border-teal-600">
+                    <div class="future-card-heading">
+                        <div class="future-card-icon text-teal-600">
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z"></path></svg>
+                        </div>
+                        <h3 class="text-3xl font-bold text-teal-700">Landmark Consolidation: The HDFC & Exide Life Merger</h3>
+                    </div>
+                    <p class="mb-6 text-gray-600">A detailed look at the first M&A in Indian life insurance history, a blueprint for future synergy-driven growth valued at ₹6,687 crore.</p>
+                    <div class="grid grid-cols-1 gap-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <h4 class="font-bold text-xl mb-2">Strategic Rationale</h4>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                    <li><strong>Agency Power-Up:</strong> Boosted HDFC Life's agency channel by 34% (+36,700 agents).</li>
+                                    <li><strong>Geographical Expansion:</strong> Gained strong foothold in South India's Tier 2 & 3 cities.</li>
+                                    <li><strong>Market Share Growth:</strong> Added 1.3% to private sector market share, reaching a combined 16.1%.</li>
+                                    <li><strong>Portfolio Diversification:</strong> Added a strong traditional and protection-focused business.</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-xl mb-2">Key Outcomes & Challenges</h4>
+                                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                    <li><strong>Margin Neutrality:</strong> Successfully maintained margin targets post-merger.</li>
+                                    <li><strong>Integration Challenge:</strong> Focused on improving Exide Life's lower persistency ratio (75.9% vs 90% for HDFC Life).</li>
+                                    <li><strong>Fast-Tracked Timeline:</strong> Entire process completed in under 14 months (Sep '21 - Oct '22).</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">Financial Analysis</h4>
+                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <li><strong>Valuation:</strong> The deal valued Exide Life at 2.47 times its embedded value of ₹2,711 crore.</li>
+                                <li><strong>Embedded Value Impact:</strong> Augmented HDFC Life's embedded value by approximately 10%, adding a high-quality, conservative business portfolio.</li>
+                                <li><strong>Capital & Solvency:</strong> Initial cash payout of ₹726 crore reduced solvency, which was later bolstered by a ₹2,000 crore capital infusion, stabilizing the merged entity's solvency profile.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="future-card-one-pager border-orange-600">
+                    <div class="future-card-heading">
+                        <div class="future-card-icon text-orange-600">
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z"/></svg>
+                        </div>
+                        <h3 class="text-3xl font-bold text-orange-700">Sweeping IRDAI Reforms: A New Era for Insurance</h3>
+                    </div>
+                    <p class="mb-6 text-gray-600">A comprehensive overhaul aimed at creating a more transparent, flexible, and customer-centric insurance landscape.</p>
+                    <!-- `sm:grid-cols-2` ensures this grid becomes 2-column even on small screens. -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
+                        <div class="space-y-2">
+                            <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Customer-First Policies</h4>
+                            <p><strong>Customer Info Sheet (CIS):</strong> Policy summary in simple, easy-to-understand language.</p>
+                            <p><strong>Extended Free Look:</strong> Increased from 15 to 30 days to review policy terms.</p>
+                            <p><strong>Higher Surrender Values:</strong> Better payouts for early policy exits, available after just one year.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Enhanced Flexibility</h4>
+                            <p><strong>Mandatory Policy Loans:</strong> All savings products must offer loans for liquidity needs.</p>
+                            <p><strong>Partial Withdrawals:</strong> Allowed from pension plans for major life events.</p>
+                            <p><strong>Health Riders:</strong> Life policies can now include health riders for emergency cover.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Industry Transformation</h4>
+                            <p><strong>Composite Licenses:</strong> Insurers can offer Life, General, & Health products under one roof.</p>
+                            <p><strong>Use & File Procedure:</strong> Faster product launches without prior IRDAI approval.</p>
+                             <p><strong>Grievance Redressal:</strong> Strict 30-day compliance for Ombudsman awards with daily penalties for delays.</p>
+                        </div>
+                        <div class="space-y-2">
+                            <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Challenges for Insurers</h4>
+                            <p><strong>Profitability Impact:</strong> Higher surrender value payouts may initially compress margins and require revisions to product pricing models.</p>
+                            <p><strong>Operational Overhaul:</strong> New premium collection rules and tech mandates demand significant investment and process re-engineering.</p>
+                            <p><strong>Increased Competition:</strong> Composite licenses will intensify market competition, potentially putting pressure on specialized insurers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="future-card border-purple-600">
+                    <div class="future-card-heading">
+                        <div class="future-card-icon text-purple-600">
+                            <svg width="100%" height="100%" class="w-12 h-12" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-1.5a1.125 1.125 0 01-1.125-1.125v-9.75c0-.621.504-1.125 1.125-1.125h.375m-1.5-1.5v-.75a.75.75 0 00-.75-.75h-.75M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-purple-700">Liberalized FDI: A Global Invitation</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                        <li>Proposed 100% FDI limit to attract significant foreign capital and expertise.</li>
+                        <li>Aims to intensify competition and spur product innovation.</li>
+                        <li>Crucial condition: All premiums collected must be invested within India.</li>
+                    </ul>
+                </div>
+                <div class="future-card border-indigo-600">
+                    <div class="future-card-heading">
+                        <div class="future-card-icon text-indigo-600">
+                            <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-indigo-700">Vision: "Insurance for All by 2047"</h3>
+                    </div>
+                    <ul class="list-disc space-y-2">
+                        <li>The industry's ambitious north star for universal insurance coverage.</li>
+                        <li>Driven by a comprehensive regulatory overhaul and digital transformation.</li>
+                        <li>Focuses on creating a customer-centric, accessible, and inclusive ecosystem.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="competitive-dynamics" class="mb-20 md:mb-28">
+            <h2 class="text-4xl font-bold text-center section-title">The Shifting Tides of Competition</h2>
+            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+                The Indian life insurance market is characterized by a dynamic competitive environment, with both public and private sector players striving for market share and innovation. Below, we delve into key financial metrics comparing their performance.
+            </p>
+            <div class="grid grid-cols-1 gap-8 max-w-6xl mx-auto">
+                <div class="chart-card lg:col-span-1">
+                    <h3 class="text-xl font-semibold mb-1 text-center">The AUM Battleground: A Shifting Balance of Power</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <h4 class="text-lg font-medium text-center mb-2">AUM Market Share (2024)</h4>
+                            <div class="chart-container" style="height: 200px;">
+                                <canvas id="aumPublicPrivateChart2024"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-medium text-center mb-2">AUM Market Share (2023)</h4>
+                            <div class="chart-container" style="height: 200px;">
+                                <canvas id="aumPublicPrivateChart2023"></canvas>
+                            </div>
+                        </div>
+                        <div>
+                            <h4 class="text-lg font-medium text-center mb-2">AUM Growth (FY23-24)</h4>
+                            <div class="chart-container" style="height: 200px;">
+                                <canvas id="aumGrowthRatesChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600 mt-4 text-center">
+                        A compelling story of asset accumulation is evident. While LIC still commands the lion's share of Assets Under Management (AUM), the private sector's slice is visibly growing from 2023 to 2024. The reason is clear from the growth rates: private players are expanding their AUM at more than double the rate of LIC (22.2% vs 9.4%). This signifies a crucial strategic shift, as private insurers' focus on market-linked products and agile investment strategies attracts wealth at a much faster pace, fundamentally altering the industry's long-term financial landscape.
+                    </p>
+                </div>
+                <div class="chart-card lg:col-span-1">
+                    <h3 class="text-xl font-semibold mb-1 text-center">Tale of Two Sectors: Premium Growth and Market Dynamics</h3>
+                    <div class="flex flex-col items-center gap-8">
+                        <div class="w-full">
+                            <div class="chart-container">
+                                <canvas id="totalPremiumPublicPrivateChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                             <p class="text-sm text-gray-600 text-center">
+                                A critical story of market evolution unfolds. While LIC's total premium income remains substantial, its growth trajectory has flattened significantly, showing near-zero growth in FY24. In stark contrast, private players demonstrate relentless upward momentum in both premium income and a consistently high growth rate of around 15%. A powerful shift is clear: the private sector is the new engine of growth, rapidly closing the gap with the state-owned behemoth.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-card lg:col-span-1">
+                    <h3 class="text-xl font-semibold mb-1 text-center">New Business Race: LIC vs. The Industry</h3>
+                    <div class="flex flex-col items-center gap-8">
+                         <div class="w-full">
+                            <div class="chart-container">
+                                <canvas id="nbpPublicPrivateChart"></canvas>
+                            </div>
+                        </div>
+                        <div class="w-full">
+                            <p class="text-sm text-gray-600 text-center">
+                                LIC's challenge in attracting new customers is clear. While the overall industry's average New Business Premium (NBP) continues to rise, LIC's NBP saw a decline in FY2024. The data suggests that private insurers are more effectively capturing the imagination and wallets of new customers through innovative products and distribution channels, outpacing the traditional strategies of the public sector giant.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-8 mt-12">
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">LIC's Enduring Dominance</h3>
+                    <p>The Life Insurance Corporation of India (LIC) continues to hold a dominant position, with a substantial 62.58% market share by First Year Premium Income (FYPI) in FY 2022-23 and 72% of total Assets Under Management (AUM) as of March 2024. Its extensive agent network and brand trust are key strengths.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Private Insurers' Rising Trajectory</h3>
+                    <p>Prominent private sector players like HDFC Life, ICICI Prudential Life, SBI Life, and Max Life Insurance are rapidly expanding. They collectively recorded a 15% premium growth in FY24, significantly higher than the 0.23% for public sector insurers. This is driven by their agility, digital adoption, and targeted product innovation, especially in Unit-Linked Insurance Plans (ULIPs).</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Strategic Mergers and Partnerships</h3>
+                    <p>Mergers like HDFC Life and Exide Life (2024) are enhancing distribution networks and product offerings. The market now comprises 26 life insurers, 25 general insurers, and 8 standalone health insurers, indicating consolidation and increased operational synergies.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Shifting Power Dynamics</h3>
+                    <p>While LIC benefits from its legacy, private insurers are gaining traction through bancassurance partnerships and technological advancements like AI-driven claims processing. The decline in LIC's group business further highlights the private sector's outperformance.</p>
+                </div>
+                <div class="story-card p-6 md:p-8">
+                    <h3 class="text-2xl font-bold mb-3">Impact of Regulatory Changes</h3>
+                    <p>The recent increase in Foreign Direct Investment (FDI) limit to 100% is expected to inject capital, stimulate product innovation, and expand coverage, intensifying competition and fostering a more dynamic industry. This also strengthens consumer protections.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-white mt-24">
+        <div class="container mx-auto px-6 py-8 text-center">
+            <p>&copy; 2025 Industry Analysis Presentation. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // All data is centrally located for easy management.
+            const data = {
+                financialAggregates: {
+                    labels: ['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'],
+                    totalPremium: [572910, 628731, 692614, 782503, 829929],
+                    newPoliciesIssued: [2703, 2748, 2947, 3302, 3651],
+                    aum: [3100000, 3400000, 3800000, 4200000, 4500000],
+                    newBusinessPremium: [180000, 200000, 220000, 250000, 280000]
+                },
+                penetrationDensityGlobal: {
+                    countries: [
+                        { name: 'India', penetration: 3.7, density: 95 },
+                        { name: 'World', penetration: 7.0, density: 889 },
+                        { name: 'United Kingdom', penetration: 9.7, density: 4759 },
+                        { name: 'United States of America', penetration: 11.9, density: 9640 },
+                        { name: 'Japan', penetration: 8.9, density: 2938 },
+                        { name: 'France', penetration: 8.7, density: 3867 },
+                        { name: 'South Africa', penetration: 11.5, density: 718 },
+                        { name: 'Singapore', penetration: 9.2, density: 7799 },
+                        { name: 'South Korea', penetration: 11.0, density: 3603 },
+                        { name: 'Germany', penetration: 6.8, density: 4500 },
+                        { name: 'Canada', penetration: 7.5, density: 5500 },
+                        { name: 'Australia', penetration: 8.5, density: 6000 },
+                        { name: 'Brazil', penetration: 4.5, density: 300 },
+                        { name: 'China', penetration: 4.3, density: 450 }
+                    ]
+                },
+                penetrationDensityIndiaHistorical: {
+                    labels: ['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'],
+                    totalPenetration: [3.5, 3.8, 4.0, 4.2, 3.7],
+                    totalDensity: [75, 80, 85, 92, 95],
+                    lifePenetration: [2.74, 2.82, 3.2, 3.2, 3.0],
+                    lifeDensity: [55, 58, 59, 69, 70]
+                },
+                competitiveData: {
+                    totalPremium: {
+                        labels: ['FY2020-21', 'FY2021-22', 'FY2022-23', 'FY2023-24'],
+                        lic: [403286.55, 428024.97, 474668.14, 475751.92],
+                        private: [225444.46, 264589.15, 307835.82, 353617.66],
+                        licGrowth: [null, 6.136, 10.896, 0.228],
+                        privateGrowth: [null, 17.368, 16.319, 14.873]
+                    },
+                    nbp: {
+                        labels: ['FY2021-22', 'FY2022-23', 'FY2023-24'],
+                        lic: [198932.18, 232050.60, 222195.00],
+                        industry_average: [325994, 378000, 410000]
+                    },
+                    aumDistribution2024: {
+                        labels: ['LIC', 'Private Players'],
+                        data: [4423580, 1733270]
+                    },
+                    aumDistribution2023: {
+                        labels: ['LIC', 'Private Players'],
+                        data: [4043656, 1418261]
+                    },
+                    aumGrowthRates: {
+                        labels: ['LIC', 'Private Players', 'Total Industry'],
+                        data: [9.39, 22.21, 12.72]
+                    }
+                }
+            };
+
+            const chartColors = {
+                linePrimary: 'rgba(0, 121, 107, 0.8)',
+                lineSecondary: 'rgba(54, 162, 235, 0.8)',
+                barPrimary: 'rgba(229, 115, 115, 0.8)',
+                barSecondary: 'rgba(128, 128, 128, 0.5)',
+                lifePenetrationColor: 'rgba(76, 175, 80, 0.8)',
+                lifeDensityColor: 'rgba(255, 87, 34, 0.8)',
+                licColor: '#36A2EB',
+                privateColor: '#FF6384',
+                industryAverageColor: '#8E44AD',
+                licPieColor: '#36A2EB',
+                privatePieColor: '#FFCD56',
+                licPieColor2023: '#8E44AD',
+                privatePieColor2023: '#2ECC71',
+                overallPenetrationLine: 'rgba(52, 152, 219, 0.9)',
+                lifePenetrationLine: 'rgba(39, 174, 96, 0.9)',
+                overallDensityBar: 'rgba(230, 126, 34, 0.7)',
+                lifeDensityBar: 'rgba(142, 68, 173, 0.7)'
+            };
+
+            const defaultChartOptions = {
+                // KEY FOR RESPONSIVENESS: `responsive: true` tells Chart.js to resize the chart with its container.
+                // `maintainAspectRatio: false` allows the chart to fill the container's height and width independently.
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { font: { size: 12, family: 'Lora' } }
+                    },
+                    tooltip: {
+                        backgroundColor: '#34495e',
+                        titleFont: { size: 14, weight: 'bold', family: 'Lora' },
+                        bodyFont: { size: 12, family: 'Lora' },
+                        padding: 10,
+                        cornerRadius: 4,
+                    }
+                },
+                scales: {
+                     x: {
+                        grid: { display: false },
+                        ticks: { font: { size: 12, family: 'Lora' } }
+                    },
+                    y: {
+                        grid: { color: 'rgba(200, 200, 200, 0.2)' },
+                         ticks: { font: { size: 12, family: 'Lora' } }
+                    }
+                }
+            };
+
+            let tooltip = d3.select("body").select(".tooltip");
+            if (tooltip.empty()) {
+                tooltip = d3.select("body").append("div")
+                    .attr("class", "tooltip")
+                    .style("opacity", 0);
+            }
+
+            function createPictogramChart(containerId, chartData, valuePerIcon, iconSVG, unit) {
+                const container = document.getElementById(containerId);
+                d3.select(container).selectAll("*").remove();
+                if (!container) return;
+
+                const svg = d3.select(container).append("svg")
+                    .attr("width", "100%")
+                    .attr("height", "100%")
+                    .attr("viewBox", `0 0 ${container.clientWidth} ${container.clientHeight}`)
+                    .attr("preserveAspectRatio", "xMidYMid meet");
+
+                const defs = svg.append("defs");
+
+                // Increased top margin to give more space for numbers
+                const margin = { top: 50, right: 20, bottom: 70, left: 20 };
+                const chartWidth = container.clientWidth - margin.left - margin.right;
+                const chartHeight = container.clientHeight - margin.top - margin.bottom;
+
+                const g = svg.append("g")
+                    .attr("transform", `translate(${margin.left},${margin.top})`);
+
+                const xScale = d3.scaleBand()
+                    .domain(chartData.labels)
+                    .range([0, chartWidth])
+                    .padding(0.5);
+
+                g.append("g")
+                    .attr("class", "x-axis")
+                    .attr("transform", `translate(0,${chartHeight})`)
+                    .call(d3.axisBottom(xScale).tickSizeOuter(0))
+                    .selectAll("text")
+                    .style("font-family", "Lora")
+                    .style("font-size", "12px");
+
+                const maxIconsPerColumnForHeight = d3.max(chartData.data, d => Math.ceil(d / valuePerIcon));
+                const iconHeight = Math.min(45, chartHeight / (maxIconsPerColumnForHeight + 2));
+                const iconWidth = iconHeight;
+
+                // Determine font size dynamically based on container width
+                let labelFontSize = 14;
+                if (container.clientWidth < 450) { // For smaller mobile screens
+                    labelFontSize = 12;
+                }
+                if (container.clientWidth < 350) { // For very narrow screens
+                    labelFontSize = 10;
+                }
+
+
+                chartData.labels.forEach((label, i) => {
+                    const value = chartData.data[i];
+                    const numFullIcons = Math.floor(value / valuePerIcon);
+                    const remainder = value % valuePerIcon;
+                    const fractionalHeightRatio = (remainder / valuePerIcon);
+
+                    const xPos = xScale(label);
+                    const columnBaseY = chartHeight;
+
+                    let topmostIconY = columnBaseY; // Initialize topmostIconY
+
+                    for (let j = 0; j < numFullIcons; j++) {
+                        const iconGroup = g.append("g")
+                            .attr("class", "pictogram-icon-group")
+                            .attr("transform", `translate(${xPos + (xScale.bandwidth() - iconWidth) / 2}, ${columnBaseY - (j + 1) * (iconHeight + 2)})`)
+                            .html(iconSVG);
+                        iconGroup.select("svg").attr("width", iconWidth).attr("height", iconHeight);
+                    }
+
+                    // Update topmostIconY after drawing full icons
+                    topmostIconY = columnBaseY - (numFullIcons * (iconHeight + 2));
+
+                    if (remainder > 0) {
+                        const currentClipId = `clip-partial-icon-${containerId}-${i}`;
+                        const clipRectHeight = iconHeight * fractionalHeightRatio;
+                        const clipRectY = iconHeight - clipRectHeight;
+
+                        defs.append("clipPath").attr("id", currentClipId).append("rect")
+                            .attr("x", 0).attr("y", clipRectY).attr("width", iconWidth).attr("height", clipRectHeight);
+
+                        const partialIconGroup = g.append("g").attr("class", "pictogram-icon-group")
+                            .attr("transform", `translate(${xPos + (xScale.bandwidth() - iconWidth) / 2}, ${columnBaseY - (numFullIcons + 1) * (iconHeight + 2)})`)
+                            .attr("clip-path", `url(#${currentClipId})`).html(iconSVG);
+
+                        partialIconGroup.select("svg").attr("width", iconWidth).attr("height", iconHeight);
+                        // Update topmostIconY after drawing partial icon, adjusted for spacing
+                        topmostIconY = columnBaseY - ((numFullIcons + (remainder > 0 ? 1 : 0)) * (iconHeight + 2)) ;
+                    }
+
+                    let formattedValue;
+                    if (unit === 'Crores') {
+                        formattedValue = value >= 100000 ? '₹' + (value / 100000).toLocaleString('en-IN', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + ' L Cr' : '₹' + value.toLocaleString('en-IN') + ' Cr';
+                    } else if (unit === 'Lakhs') {
+                        formattedValue = value.toLocaleString('en-IN') + ' Lakhs';
+                    } else {
+                        formattedValue = value.toLocaleString('en-IN');
+                    }
+
+                    g.append("text")
+                        .attr("x", xPos + xScale.bandwidth() / 2)
+                        // Position the text higher, relative to the margin.top, with dynamic offset
+                        .attr("y", -10) // Fixed offset from the top of the 'g' element (which starts at margin.top)
+                        .attr("text-anchor", "middle").attr("class", "value-label")
+                        .style("font-family", "Playfair Display")
+                        .style("font-size", `${labelFontSize}px`) // Apply dynamic font size
+                        .style("font-weight", "bold")
+                        .style("fill", "#333")
+                        .text(formattedValue);
+                });
+
+                const legendText = `Each icon represents ${valuePerIcon.toLocaleString('en-IN')} ${unit}`;
+                svg.append("text")
+                    .attr("x", container.clientWidth / 2)
+                    .attr("y", container.clientHeight - 20)
+                    .attr("text-anchor", "middle")
+                    .attr("class", "pictogram-unit-legend")
+                    .text(legendText);
+            }
+
+            const rupeeCoinSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 265.788"><path fill="#4CAF50" d="M0 0h512v265.789H0z"/><path fill="#81C784" d="M427.35 41.011c-.271 19.77 17.153 37.654 37.661 37.9v105.161c-21.602-.271-39.482 17.153-39.728 40.706H84.65c.271-21.603-17.157-39.487-37.662-39.733V79.884c21.685.246 39.58-17.167 39.826-38.873H427.35z"/><path fill="#4CAF50" d="M184.56 94.866c21.004-39.459 70.01-54.415 109.468-33.412 39.458 21 54.415 70.01 33.411 109.469-21 39.457-70.009 54.414-109.467 33.411-39.459-21.004-54.415-70.01-33.412-109.468z"/><path fill="#FEFEFE" d="M227.768 87.669h56.52c.484 0 .881.406.881.905l-.001 8.613a.895.895 0 01-.881.903h-17.652c2.783 3.237 4.771 7.137 5.673 11.422h11.98c.484 0 .88.404.88.903v8.614c0 .497-.396.905-.88.905h-11.98c-1.081 5.131-3.724 9.715-7.421 13.263-4.843 4.647-11.51 7.529-18.838 7.529v.03h-.815l31.703 36.151c.857.978-.644 3.153-1.317 3.156l-14.657.083-33.844-38.593a1.18 1.18 0 01-.23-1.142v-14.134h19.16v.028c3.445 0 6.568-1.346 8.829-3.512a11.857 11.857 0 002.197-2.859h-29.307c-.484 0-.879-.408-.879-.905v-8.614c0-.499.396-.903.879-.903l29.307-.001a11.781 11.781 0 00-2.197-2.858c-2.261-2.169-5.384-3.514-8.829-3.514v.027l-19.16.001V88.574c0-.499.395-.905.878-.905h.001z"/></svg>`;
+            const documentSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" fill="#FFF" stroke="#4A4A4A"/><path d="M14 2v6h6" stroke="#4A4A4A"/><path d="M8 12h8M8 16h4" stroke="#6B7280"/></svg>`;
+            const buildingSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L3 7v14h18V7z" fill="#78909C" stroke="#4A4A4A"/><path d="M7 10v9M12 10v9M17 10v9" stroke="#CFD8DC" stroke-width="1.5"/><path d="M3 7l9-5 9 5" stroke="#4A4A4A"/></svg>`;
+            const newBusinessPremiumSVG = `<svg viewBox="0 0 64 64"><rect x="4" y="16" width="56" height="32" rx="4" fill="#22C55E" stroke="#16A34A" stroke-width="2"/><text x="32" y="42" text-anchor="middle" font-size="16" font-weight="bold" fill="#FFFFFF">₹</text></svg>`;
+
+            createPictogramChart('totalPremiumPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.totalPremium }, 100000, rupeeCoinSVG, 'Crores');
+            createPictogramChart('newPoliciesPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.newPoliciesIssued }, 500, documentSVG, 'Lakhs');
+            createPictogramChart('aumPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.aum }, 500000, buildingSVG, 'Crores');
+            createPictogramChart('newBusinessPremiumPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.newBusinessPremium }, 20000, newBusinessPremiumSVG, 'Crores');
+
+            new Chart(document.getElementById('penetrationDensityCombinedChart'), { type: 'line', data: { labels: data.penetrationDensityIndiaHistorical.labels, datasets: [ { label: 'Overall Penetration (%)', data: data.penetrationDensityIndiaHistorical.totalPenetration, borderColor: chartColors.overallPenetrationLine, tension: 0.1, fill: false, yAxisID: 'y-penetration' }, { label: 'Life Penetration (%)', data: data.penetrationDensityIndiaHistorical.lifePenetration, borderColor: chartColors.lifePenetrationLine, tension: 0.1, fill: false, yAxisID: 'y-penetration' }, { label: 'Overall Density ($)', data: data.penetrationDensityIndiaHistorical.totalDensity, type: 'bar', backgroundColor: chartColors.overallDensityBar, yAxisID: 'y-density' }, { label: 'Life Density ($)', data: data.penetrationDensityIndiaHistorical.lifeDensity, type: 'bar', backgroundColor: chartColors.lifeDensityBar, yAxisID: 'y-density' } ] }, options: { ...defaultChartOptions, scales: { x: { grid: { display: false } }, 'y-penetration': { type: 'linear', position: 'left', grid: { color: 'rgba(200, 200, 200, 0.2)' }, ticks: { callback: value => value + '%' }, title: { display: true, text: 'Penetration (%)' }, min: 2.0, max: 4.5 }, 'y-density': { type: 'linear', position: 'right', grid: { display: false }, ticks: { callback: value => '$' + value }, title: { display: true, text: 'Density ($)' }, min: 0, max: 100 } } } });
+
+            function createWorldMap() {
+                const mapContainer = document.getElementById('worldMap');
+                d3.select("#worldMap").select("svg").remove();
+                if (!mapContainer || mapContainer.clientWidth === 0) { setTimeout(createWorldMap, 100); return; }
+                const width = mapContainer.clientWidth, height = mapContainer.clientHeight;
+                const svg = d3.select("#worldMap").append("svg").attr("width", width).attr("height", height);
+                const projection = d3.geoMercator().scale(width / (2 * Math.PI)).translate([width / 2, height / 1.5]);
+                const path = d3.geoPath().projection(projection);
+
+                d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json").then(world => {
+                    const countries = topojson.feature(world, world.objects.countries).features;
+                    const countryDataMap = new Map(data.penetrationDensityGlobal.countries.map(d => [d.name, d]));
+                    const penetrationColorScale = d3.scaleSequential(d3.interpolateGreens).domain([0, d3.max(data.penetrationDensityGlobal.countries, d => d.penetration)]);
+
+                    svg.selectAll("path").data(countries).enter().append("path").attr("class", "country")
+                        .attr("d", path)
+                        .attr("fill", d => countryDataMap.has(d.properties.name) ? penetrationColorScale(countryDataMap.get(d.properties.name).penetration) : "#ccc")
+                        .on("mouseover", (event, d) => {
+                            const countryInfo = countryDataMap.get(d.properties.name);
+                            if (countryInfo) {
+                                d3.select(event.currentTarget).attr("fill", "orange");
+                                tooltip.html(`<strong>${d.properties.name}</strong><br/>Penetration: ${countryInfo.penetration}%<br/>Density: $${countryInfo.density.toLocaleString()}`)
+                                    .style("left", (event.pageX + 10) + "px")
+                                    .style("top", (event.pageY - 28) + "px")
+                                    .transition()
+                                    .duration(200)
+                                    .style("opacity", .9);
+                            }
+                        })
+                        .on("mouseout", (event, d) => {
+                            const countryInfo = countryDataMap.get(d.properties.name);
+                            d3.select(event.currentTarget).attr("fill", countryInfo ? penetrationColorScale(countryInfo.penetration) : "#ccc");
+                            tooltip.transition().duration(500).style("opacity", 0);
+                        });
+                }).catch(error => console.error("Error loading TopoJSON data:", error));
+            }
+            setTimeout(createWorldMap, 0);
+
+            new Chart(document.getElementById('totalPremiumPublicPrivateChart'), { type: 'line', data: { labels: data.competitiveData.totalPremium.labels, datasets: [ { label: 'LIC Total Premium (₹ Cr)', data: data.competitiveData.totalPremium.lic, borderColor: chartColors.licColor, tension: 0.1, fill: false, yAxisID: 'y' }, { label: 'Private Players Total Premium (₹ Cr)', data: data.competitiveData.totalPremium.private, borderColor: chartColors.privateColor, tension: 0.1, fill: false, yAxisID: 'y' }, { label: 'LIC Growth (%)', data: data.competitiveData.totalPremium.licGrowth, borderColor: chartColors.licColor, borderDash: [5, 5], tension: 0.1, fill: false, yAxisID: 'y1' }, { label: 'Private Players Growth (%)', data: data.competitiveData.totalPremium.privateGrowth, borderColor: chartColors.privateColor, borderDash: [5, 5], tension: 0.1, fill: false, yAxisID: 'y1' } ] }, options: { ...defaultChartOptions, scales: { x: { grid: { display: false } }, y: { type: 'linear', position: 'left', grid: { color: 'rgba(200, 200, 200, 0.2)' }, ticks: { callback: value => '₹' + value.toLocaleString() }, title: { display: true, text: 'Premium Income (₹ Crores)' } }, y1: { type: 'linear', position: 'right', grid: { display: false }, ticks: { callback: value => value + '%' }, title: { display: true, text: 'Growth Rate (%)' } } } } });
+            new Chart(document.getElementById('nbpPublicPrivateChart'), { type: 'bar', data: { labels: data.competitiveData.nbp.labels, datasets: [ { label: 'LIC NBP', data: data.competitiveData.nbp.lic, backgroundColor: chartColors.licColor }, { label: 'Total Private NBP', data: data.competitiveData.nbp.industry_average, backgroundColor: chartColors.industryAverageColor } ] }, options: { ...defaultChartOptions, scales: { x: { stacked: false }, y: { type: 'linear', position: 'left', ticks: { callback: value => '₹' + value.toLocaleString() } } } } });
+            new Chart(document.getElementById('aumPublicPrivateChart2024'), { type: 'pie', data: { labels: data.competitiveData.aumDistribution2024.labels, datasets: [{ data: data.competitiveData.aumDistribution2024.data, backgroundColor: [chartColors.licPieColor, chartColors.privatePieColor] }] }, options: { ...defaultChartOptions, scales: {} } });
+            new Chart(document.getElementById('aumPublicPrivateChart2023'), { type: 'pie', data: { labels: data.competitiveData.aumDistribution2023.labels, datasets: [{ data: data.competitiveData.aumDistribution2023.data, backgroundColor: [chartColors.licPieColor2023, chartColors.privatePieColor2023] }] }, options: { ...defaultChartOptions, scales: {} } });
+            new Chart(document.getElementById('aumGrowthRatesChart'), { type: 'bar', data: { labels: data.competitiveData.aumGrowthRates.labels, datasets: [{ label: 'AUM Growth Rate (%)', data: data.competitiveData.aumGrowthRates.data, backgroundColor: [chartColors.licColor, chartColors.privateColor, chartColors.barSecondary] }] }, options: { ...defaultChartOptions, plugins: { ...defaultChartOptions.plugins, legend: { display: false } }, scales: { y: { ticks: { callback: value => value + '%' }, beginAtZero: true } } } });
+
+            // KEY FOR RESPONSIVENESS: This event listener redraws the D3-based charts whenever the window is resized.
+            // This ensures they always fit their container, even if the user rotates their phone or resizes their browser.
+            window.addEventListener('resize', () => {
+                setTimeout(createWorldMap, 100);
+                createPictogramChart('totalPremiumPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.totalPremium }, 100000, rupeeCoinSVG, 'Crores');
+                createPictogramChart('newPoliciesPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.newPoliciesIssued }, 500, documentSVG, 'Lakhs');
+                createPictogramChart('aumPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.aum }, 500000, buildingSVG, 'Crores');
+                createPictogramChart('newBusinessPremiumPictogram', { labels: data.financialAggregates.labels, data: data.financialAggregates.newBusinessPremium }, 20000, newBusinessPremiumSVG, 'Crores');
+            });
+        });
+    </script>
+</body>
+</html>
