@@ -133,7 +133,7 @@
         }
         .chart-card {
             background-color: white;
-            padding: 2rem;
+            padding: 2rem; /* Default for mobile */
             border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             display: flex;
@@ -141,7 +141,7 @@
         }
         .future-card {
             background-color: white;
-            padding: 2.5rem;
+            padding: 2.5rem; /* Default for mobile */
             border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             border-top: 5px solid;
@@ -150,7 +150,7 @@
         }
          .future-card-one-pager {
             background-color: #FFFFFF;
-            padding: 3rem;
+            padding: 3rem; /* Default for mobile */
             border-radius: 1rem;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             border-top: 6px solid;
@@ -268,6 +268,87 @@
         .reveal-on-scroll.is-visible {
             opacity: 1;
             transform: none;
+        }
+
+        /* Default font size for content cards (large screens) */
+        .story-card p,
+        .chart-card p,
+        .future-card p,
+        .future-card-one-pager p,
+        .future-card ul li,
+        .future-card-one-pager ul li {
+            font-size: 1.125rem !important; /* text-lg equivalent */
+        }
+
+        /* Default font size for KPI labels (large screens) */
+        .kpi-label {
+            font-size: 1.125rem !important;
+        }
+
+        /* Mobile adjustments for card padding and font sizes */
+        @media (max-width: 768px) { /* For screens smaller than md (768px) */
+            .chart-card {
+                padding: 1.5rem; /* Reduced padding for smaller screens */
+            }
+            .future-card {
+                padding: 1.75rem; /* Reduced padding for smaller screens */
+            }
+            .future-card-one-pager {
+                padding: 2rem; /* Reduced padding for smaller screens */
+            }
+            .kpi {
+                padding: 1.5rem; /* Reduced padding for KPIs on mobile */
+            }
+            .kpi-value {
+                font-size: 2.5rem; /* Slightly smaller KPI value on mobile */
+            }
+            .section-title {
+                font-size: 3rem !important; /* Adjust section titles for mobile */
+            }
+            .section-title::after {
+                width: 60px; /* Adjust underline width for mobile */
+            }
+            /* Adjust introductory paragraphs for sections on smaller screens */
+            main > section > p { 
+                font-size: 1.125rem !important; /* Still larger than card text for emphasis */
+            }
+            .story-card p,
+            .chart-card p,
+            .future-card p,
+            .future-card-one-pager p,
+            .future-card ul li,
+            .future-card-one-pager ul li {
+                font-size: 1.05rem !important; /* Slightly smaller for better fit */
+            }
+            .kpi-label {
+                font-size: 1.05rem !important;
+            }
+        }
+
+        @media (max-width: 480px) { /* Even smaller adjustments for very small screens (480px) */
+            .story-card p,
+            .chart-card p,
+            .future-card p,
+            .future-card-one-pager p,
+            .future-card ul li,
+            .future-card-one-pager ul li {
+                font-size: 0.95rem !important; /* Further reduced font size on very small screens */
+            }
+            .kpi-label {
+                font-size: 0.95rem !important;
+            }
+            .chart-card, .future-card, .future-card-one-pager, .kpi {
+                padding: 1rem; /* Minimum padding for very small screens */
+            }
+            .section-title {
+                font-size: 2.25rem !important; /* Even smaller section titles */
+            }
+             .kpi-value {
+                font-size: 2rem; /* Further smaller KPI value on very small screens */
+            }
+            main > section > p { /* Adjust introductory paragraphs for sections on very small screens */
+                font-size: 1rem !important;
+            }
         }
     </style>
 </head>
