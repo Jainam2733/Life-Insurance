@@ -82,17 +82,20 @@
         .kpi {
             background-color: rgba(255, 255, 255, 0.7);
             border-radius: 0.75rem;
-            padding: 1.5rem;
+            /* Increased padding for KPIs */
+            padding: 2rem;
             text-align: center;
             border: 1px solid #EAEAEA;
         }
         .kpi-value {
             font-family: 'Playfair Display', serif;
-            font-size: 2.5rem;
+            /* Increased font size for KPI values */
+            font-size: 3rem;
             font-weight: 700;
         }
         .kpi-label {
-            font-size: 0.9rem;
+            /* Increased font size for KPI labels */
+            font-size: 1rem;
             color: #6B7280;
         }
         /* Chart containers are set to 100% width, so they will scale with their parent element. */
@@ -103,7 +106,8 @@
         }
         .chart-card {
             background-color: white;
-            padding: 1.5rem;
+            /* Increased padding for chart cards */
+            padding: 2rem;
             border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             display: flex;
@@ -111,7 +115,8 @@
         }
         .future-card {
             background-color: white;
-            padding: 2rem;
+            /* Increased padding for future cards */
+            padding: 2.5rem;
             border-radius: 1rem;
             box-shadow: 0 10px 25px rgba(0,0,0,0.05);
             border-top: 5px solid;
@@ -120,7 +125,8 @@
         }
          .future-card-one-pager {
             background-color: #FFFFFF;
-            padding: 2.5rem;
+            /* Increased padding for one-pager future cards */
+            padding: 3rem;
             border-radius: 1rem;
             box-shadow: 0 15px 40px rgba(0,0,0,0.1);
             border-top: 6px solid;
@@ -234,11 +240,14 @@
     </header>
 
     <!-- The `container`, `mx-auto`, and `px-6` classes create a centered, flexible-width container with padding. -->
-    <main class="container mx-auto px-6 py-16 md:py-24">
+    <!-- Decreased overall horizontal padding and increased vertical padding for main content -->
+    <main class="container mx-auto px-4 py-16 md:px-8 lg:py-24">
 
         <section id="introduction" class="mb-20 md:mb-28">
-            <h2 class="text-4xl font-bold text-center section-title">An Industry at a Crossroads</h2>
-            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700">
+            <!-- Increased font size for section title -->
+            <h2 class="text-5xl font-bold text-center section-title">An Industry at a Crossroads</h2>
+            <!-- Increased max-width and font size for introductory text -->
+            <p class="max-w-5xl mx-auto text-center text-xl md:text-2xl leading-relaxed text-gray-700">
                 The Indian life insurance sector presents a compelling narrative of immense potential tempered by persistent challenges. Projected to grow at over 10% annually, it stands as a beacon of financial expansion. However, this rapid growth is shadowed by a significant coverage gap, leaving a vast portion of the population underinsured. This presentation unfolds the story of its robust performance, the transformative reforms shaping its path, and the fundamental quest to secure every Indian's future.
             </p>
             <!--
@@ -247,7 +256,8 @@
               `md:grid-cols-3` changes it to a three-column layout on medium screens and up.
               This is a core concept of responsive design.
             -->
-            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <!-- Increased max-width for KPI section -->
+            <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 <div class="kpi">
                     <div class="kpi-value text-green-600">10.5%</div>
                     <div class="kpi-label">Projected Annual Growth</div>
@@ -264,37 +274,44 @@
         </section>
 
         <section id="market" class="mb-20 md:mb-28">
-            <h2 class="text-4xl font-bold text-center section-title">Market Snapshot: A Picture of Health</h2>
-            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+            <!-- Increased font size for section title -->
+            <h2 class="text-5xl font-bold text-center section-title">Market Snapshot: A Picture of Health</h2>
+            <!-- Increased max-width and font size for section description -->
+            <p class="max-w-5xl mx-auto text-center text-xl md:text-2xl leading-relaxed text-gray-700 mb-12">
                 The industry demonstrates robust financial health, with key metrics showing a consistent upward trajectory. This reflects a growing market and increasing consumer engagement with insurance products.
             </p>
             <!-- `grid-cols-1` for mobile, `lg:grid-cols-2` for large screens. The layout adapts. -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <!-- Increased max-width for market snapshot cards -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto">
                 <div class="chart-card">
                     <h3 class="text-xl font-semibold mb-1 text-center">Soaring Premiums: A Testament to Trust</h3>
                     <div id="totalPremiumPictogram" class="pictogram-container"></div>
-                    <p class="text-sm text-gray-600 mt-4 text-center">
+                    <!-- Increased font size for chart card descriptions -->
+                    <p class="text-base text-gray-600 mt-4 text-center">
                         The consistent year-over-year increase in total premium income, rising from ₹5.7 lakh crore in FY20 to nearly ₹8.3 lakh crore in FY24, underscores a powerful trend. This isn't just growth; it signifies expanding market reach and, more importantly, a deepening trust among consumers in the value of life insurance as a cornerstone of financial security.
                     </p>
                 </div>
                 <div class="chart-card">
                     <h3 class="text-xl font-semibold mb-1 text-center">Expanding the Safety Net: Policy Growth</h3>
                     <div id="newPoliciesPictogram" class="pictogram-container"></div>
-                    <p class="text-sm text-gray-600 mt-4 text-center">
+                    <!-- Increased font size for chart card descriptions -->
+                    <p class="text-base text-gray-600 mt-4 text-center">
                         The steady climb in new policies issued, from 27 million in FY20 to over 36 million in FY24, is a direct indicator of increasing public awareness. This metric highlights the industry's success in broadening its customer base and making critical financial protection accessible to more Indians, a vital step towards closing the nation's coverage gap.
                     </p>
                 </div>
                 <div class="chart-card">
                     <h3 class="text-xl font-semibold mb-1 text-center">Fueling the Economy: AUM on the Rise</h3>
                     <div id="aumPictogram" class="pictogram-container"></div>
-                    <p class="text-sm text-gray-600 mt-4 text-center">
+                    <!-- Increased font size for chart card descriptions -->
+                    <p class="text-base text-gray-600 mt-4 text-center">
                         The remarkable growth in Assets Under Management (AUM) from ₹31 lakh crore to ₹45 lakh crore in just five years showcases the industry's immense contribution to the national economy. This accumulation of long-term capital is not only a sign of a healthy sector but also a critical source of funding for infrastructure and national development.
                     </p>
                 </div>
                 <div class="chart-card">
                      <h3 class="text-xl font-semibold mb-1 text-center">The Engine of Expansion: New Business Momentum</h3>
                     <div id="newBusinessPremiumPictogram" class="pictogram-container"></div>
-                    <p class="text-sm text-gray-600 mt-4 text-center">
+                    <!-- Increased font size for chart card descriptions -->
+                    <p class="text-base text-gray-600 mt-4 text-center">
                         The upward trajectory of new business premium, increasing from ₹1.8 lakh crore to ₹2.8 lakh crore, reflects the industry's dynamism. This growth is a clear signal of strong sales performance, effective market penetration strategies, and a robust, ongoing demand for innovative insurance products that meet evolving consumer needs.
                     </p>
                 </div>
@@ -302,12 +319,15 @@
         </section>
 
         <section id="coverage" class="mb-20 md:mb-28">
-            <h2 class="text-4xl font-bold text-center section-title">The Great Indian Insurance Paradox</h2>
-            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+            <!-- Increased font size for section title -->
+            <h2 class="text-5xl font-bold text-center section-title">The Great Indian Insurance Paradox</h2>
+            <!-- Increased max-width and font size for section description -->
+            <p class="max-w-5xl mx-auto text-center text-xl md:text-2xl leading-relaxed text-gray-700 mb-12">
                 Despite a strong economy and growing market, a significant protection gap persists. This paradox highlights deep-seated structural barriers that hinder widespread insurance adoption across the country.
             </p>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto mb-12">
+            <!-- Increased max-width for coverage charts -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-7xl mx-auto mb-12">
                  <!-- The `lg:col-span-2` class makes this card span both columns on large screens. -->
                 <div class="chart-card lg:col-span-2">
                     <h3 class="text-xl font-semibold text-center mb-4">India's Slow March: The Story of Penetration & Density</h3>
@@ -323,7 +343,8 @@
                             </div>
                         </div>
                         <div class="w-full md:w-2/5">
-                            <p class="text-sm text-gray-600 text-center md:text-left">
+                            <!-- Increased font size for chart card descriptions -->
+                            <p class="text-base text-gray-600 text-center md:text-left">
                                 A concerning stagnation emerges from the data. While both insurance penetration (premium as % of GDP) and density (premium per capita) show some growth, the pace remains sluggish, with a notable dip in overall penetration in FY24. It's a stark illustration of the core challenge: despite a growing economy, insurance is not deepening its reach or becoming more accessible to the average Indian at the pace required to close the protection gap.
                             </p>
                         </div>
@@ -336,7 +357,8 @@
                             <div id="worldMap" class="chart-container" style="height: 500px;"></div>
                         </div>
                         <div class="w-full md:w-2/5">
-                            <p class="text-sm text-gray-600 text-center md:text-left">
+                            <!-- Increased font size for chart card descriptions -->
+                            <p class="text-base text-gray-600 text-center md:text-left">
                                 Placed in a global context, India's insurance metrics reveal a stark reality. The country's lighter shade, compared to the deep greens of developed nations like the US and UK, visually represents its low penetration rate. The vast disparity in density is even more telling—India's $95 per capita premium is dwarfed by figures in the thousands elsewhere. It's not just a data point; it's a map of vulnerability, showing how far the nation must travel to achieve global standards of financial security for its citizens.
                             </p>
                         </div>
@@ -344,60 +366,67 @@
                 </div>
             </div>
 
-             <h3 class="text-3xl font-bold text-center mt-16 mb-8">Why the Gap?</h3>
+             <!-- Increased font size for "Why the Gap?" title -->
+             <h3 class="text-4xl font-bold text-center mt-16 mb-8">Why the Gap?</h3>
              <!-- This grid adapts from 1 to 2 to 3 columns as the screen size increases. -->
              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Lack of Awareness</h3>
-                    <p>A major hurdle, especially in rural areas, where insurance is often seen as a complex luxury rather than a fundamental necessity.</p>
+                <!-- Increased padding and adjusted heading/paragraph font sizes for story cards -->
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Lack of Awareness</h3>
+                    <p class="text-base">A major hurdle, especially in rural areas, where insurance is often seen as a complex luxury rather than a fundamental necessity.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Perception of Cost</h3>
-                    <p>Premiums are often viewed as an expense rather than a long-term investment in security, especially among lower-income groups.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Perception of Cost</h3>
+                    <p class="text-base">Premiums are often viewed as an expense rather than a long-term investment in security, especially among lower-income groups.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Trust Deficit</h3>
-                    <p>Complex claims processes and historical issues have created skepticism, making potential customers hesitant to invest.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Trust Deficit</h3>
+                    <p class="text-base">Complex claims processes and historical issues have created skepticism, making potential customers hesitant to invest.</p>
                 </div>
             </div>
         </section>
 
         <section id="growth" class="mb-20 md:mb-28">
-            <h2 class="text-4xl font-bold text-center section-title">The Engine of Growth</h2>
-            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+            <!-- Increased font size for section title -->
+            <h2 class="text-5xl font-bold text-center section-title">The Engine of Growth</h2>
+            <!-- Increased max-width and font size for section description -->
+            <p class="max-w-5xl mx-auto text-center text-xl md:text-2xl leading-relaxed text-gray-700 mb-12">
                 A confluence of powerful forces is propelling the industry forward. These catalysts are not merely expanding the market; they are fundamentally redefining how insurance is perceived, purchased, and delivered across the nation.
             </p>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Economic Prosperity</h3>
-                    <p>Rising disposable incomes and an expanding middle class are creating a fertile ground for financial planning and security products.</p>
+                <!-- Increased padding and adjusted heading/paragraph font sizes for story cards -->
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Economic Prosperity</h3>
+                    <p class="text-base">Rising disposable incomes and an expanding middle class are creating a fertile ground for financial planning and security products.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Heightened Awareness</h3>
-                    <p>The post-pandemic world has instilled a deeper public consciousness about financial security and the critical need for protection.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Heightened Awareness</h3>
+                    <p class="text-base">The post-pandemic world has instilled a deeper public consciousness about financial security and the critical need for protection.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Supportive Reforms</h3>
-                    <p>Proactive policies from IRDAI, including liberalized FDI norms, are fostering a more competitive and attractive market landscape.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Supportive Reforms</h3>
+                    <p class="text-base">Proactive policies from IRDAI, including liberalized FDI norms, are fostering a more competitive and attractive market landscape.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Digital Revolution</h3>
-                    <p>Technology is revolutionizing every facet of the industry, from distribution and underwriting to claims, enhancing accessibility and efficiency.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Digital Revolution</h3>
+                    <p class="text-base">Technology is revolutionizing every facet of the industry, from distribution and underwriting to claims, enhancing accessibility and efficiency.</p>
                 </div>
-                 <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Government Initiatives</h3>
-                    <p>Schemes like PM-JAY are extending basic coverage to millions, building a foundational culture of insurance from the ground up.</p>
+                 <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Government Initiatives</h3>
+                    <p class="text-base">Schemes like PM-JAY are extending basic coverage to millions, building a foundational culture of insurance from the ground up.</p>
                 </div>
-                 <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Insurtech Innovation</h3>
-                    <p>New, customer-centric models like embedded and parametric insurance are making products more relevant and user-friendly than ever before.</p>
+                 <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Insurtech Innovation</h3>
+                    <p class="text-base">New, customer-centric models like embedded and parametric insurance are making products more relevant and user-friendly than ever before.</p>
                 </div>
             </div>
         </section>
 
         <section id="future" class="text-center mb-20 md:mb-28">
-             <h2 class="text-4xl font-bold text-center section-title">Forging the Future</h2>
-            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+             <!-- Increased font size for section title -->
+             <h2 class="text-5xl font-bold text-center section-title">Forging the Future</h2>
+            <!-- Increased max-width and font size for section description -->
+            <p class="max-w-5xl mx-auto text-center text-xl md:text-2xl leading-relaxed text-gray-700 mb-12">
                 The road ahead is paved with ambition. Landmark mergers, progressive FDI policies, and sweeping regulatory reforms are not just incremental changes—they are foundational shifts towards a more dynamic, inclusive, and customer-centric insurance ecosystem for India.
             </p>
             <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
@@ -408,12 +437,15 @@
                         </div>
                         <h3 class="text-3xl font-bold text-teal-700">Landmark Consolidation: The HDFC & Exide Life Merger</h3>
                     </div>
-                    <p class="mb-6 text-gray-600">A detailed look at the first M&A in Indian life insurance history, a blueprint for future synergy-driven growth valued at ₹6,687 crore.</p>
+                    <!-- Increased font size for future card descriptions -->
+                    <p class="mb-6 text-lg text-gray-600">A detailed look at the first M&A in Indian life insurance history, a blueprint for future synergy-driven growth valued at ₹6,687 crore.</p>
                     <div class="grid grid-cols-1 gap-8">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
-                                <h4 class="font-bold text-xl mb-2">Strategic Rationale</h4>
-                                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <!-- Increased font size for future card subheadings -->
+                                <h4 class="font-bold text-xl md:text-2xl mb-2">Strategic Rationale</h4>
+                                <!-- Increased font size for list items -->
+                                <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
                                     <li><strong>Agency Power-Up:</strong> Boosted HDFC Life's agency channel by 34% (+36,700 agents).</li>
                                     <li><strong>Geographical Expansion:</strong> Gained strong foothold in South India's Tier 2 & 3 cities.</li>
                                     <li><strong>Market Share Growth:</strong> Added 1.3% to private sector market share, reaching a combined 16.1%.</li>
@@ -421,8 +453,10 @@
                                 </ul>
                             </div>
                             <div>
-                                <h4 class="font-bold text-xl mb-2">Key Outcomes & Challenges</h4>
-                                <ul class="list-disc list-inside space-y-1 text-gray-700">
+                                <!-- Increased font size for future card subheadings -->
+                                <h4 class="font-bold text-xl md:text-2xl mb-2">Key Outcomes & Challenges</h4>
+                                <!-- Increased font size for list items -->
+                                <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
                                     <li><strong>Margin Neutrality:</strong> Successfully maintained margin targets post-merger.</li>
                                     <li><strong>Integration Challenge:</strong> Focused on improving Exide Life's lower persistency ratio (75.9% vs 90% for HDFC Life).</li>
                                     <li><strong>Fast-Tracked Timeline:</strong> Entire process completed in under 14 months (Sep '21 - Oct '22).</li>
@@ -430,8 +464,10 @@
                             </div>
                         </div>
                         <div>
-                            <h4 class="font-bold text-xl mb-2">Financial Analysis</h4>
-                            <ul class="list-disc list-inside space-y-1 text-gray-700">
+                            <!-- Increased font size for future card subheadings -->
+                            <h4 class="font-bold text-xl md:text-2xl mb-2">Financial Analysis</h4>
+                            <!-- Increased font size for list items -->
+                            <ul class="list-disc list-inside space-y-1 text-base text-gray-700">
                                 <li><strong>Valuation:</strong> The deal valued Exide Life at 2.47 times its embedded value of ₹2,711 crore.</li>
                                 <li><strong>Embedded Value Impact:</strong> Augmented HDFC Life's embedded value by approximately 10%, adding a high-quality, conservative business portfolio.</li>
                                 <li><strong>Capital & Solvency:</strong> Initial cash payout of ₹726 crore reduced solvency, which was later bolstered by a ₹2,000 crore capital infusion, stabilizing the merged entity's solvency profile.</li>
@@ -447,32 +483,41 @@
                         </div>
                         <h3 class="text-3xl font-bold text-orange-700">Sweeping IRDAI Reforms: A New Era for Insurance</h3>
                     </div>
-                    <p class="mb-6 text-gray-600">A comprehensive overhaul aimed at creating a more transparent, flexible, and customer-centric insurance landscape.</p>
+                    <!-- Increased font size for future card descriptions -->
+                    <p class="mb-6 text-lg text-gray-600">A comprehensive overhaul aimed at creating a more transparent, flexible, and customer-centric insurance landscape.</p>
                     <!-- `sm:grid-cols-2` ensures this grid becomes 2-column even on small screens. -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-8">
                         <div class="space-y-2">
+                            <!-- Increased font size for future card subheadings -->
                             <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Customer-First Policies</h4>
-                            <p><strong>Customer Info Sheet (CIS):</strong> Policy summary in simple, easy-to-understand language.</p>
-                            <p><strong>Extended Free Look:</strong> Increased from 15 to 30 days to review policy terms.</p>
-                            <p><strong>Higher Surrender Values:</strong> Better payouts for early policy exits, available after just one year.</p>
+                            <!-- Increased font size for list items -->
+                            <p class="text-base"><strong>Customer Info Sheet (CIS):</strong> Policy summary in simple, easy-to-understand language.</p>
+                            <p class="text-base"><strong>Extended Free Look:</strong> Increased from 15 to 30 days to review policy terms.</p>
+                            <p class="text-base"><strong>Higher Surrender Values:</strong> Better payouts for early policy exits, available after just one year.</p>
                         </div>
                         <div class="space-y-2">
+                            <!-- Increased font size for future card subheadings -->
                             <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Enhanced Flexibility</h4>
-                            <p><strong>Mandatory Policy Loans:</strong> All savings products must offer loans for liquidity needs.</p>
-                            <p><strong>Partial Withdrawals:</strong> Allowed from pension plans for major life events.</p>
-                            <p><strong>Health Riders:</strong> Life policies can now include health riders for emergency cover.</p>
+                            <!-- Increased font size for list items -->
+                            <p class="text-base"><strong>Mandatory Policy Loans:</strong> All savings products must offer loans for liquidity needs.</p>
+                            <p class="text-base"><strong>Partial Withdrawals:</strong> Allowed from pension plans for major life events.</p>
+                            <p class="text-base"><strong>Health Riders:</strong> Life policies can now include health riders for emergency cover.</p>
                         </div>
                         <div class="space-y-2">
+                            <!-- Increased font size for future card subheadings -->
                             <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Industry Transformation</h4>
-                            <p><strong>Composite Licenses:</strong> Insurers can offer Life, General, & Health products under one roof.</p>
-                            <p><strong>Use & File Procedure:</strong> Faster product launches without prior IRDAI approval.</p>
-                             <p><strong>Grievance Redressal:</strong> Strict 30-day compliance for Ombudsman awards with daily penalties for delays.</p>
+                            <!-- Increased font size for list items -->
+                            <p class="text-base"><strong>Composite Licenses:</strong> Insurers can offer Life, General, & Health products under one roof.</p>
+                            <p class="text-base"><strong>Use & File Procedure:</strong> Faster product launches without prior IRDAI approval.</p>
+                             <p class="text-base"><strong>Grievance Redressal:</strong> Strict 30-day compliance for Ombudsman awards with daily penalties for delays.</p>
                         </div>
                         <div class="space-y-2">
+                            <!-- Increased font size for future card subheadings -->
                             <h4 class="text-xl font-bold text-gray-800 border-b-2 border-orange-200 pb-1">Challenges for Insurers</h4>
-                            <p><strong>Profitability Impact:</strong> Higher surrender value payouts may initially compress margins and require revisions to product pricing models.</p>
-                            <p><strong>Operational Overhaul:</strong> New premium collection rules and tech mandates demand significant investment and process re-engineering.</p>
-                            <p><strong>Increased Competition:</strong> Composite licenses will intensify market competition, potentially putting pressure on specialized insurers.</p>
+                            <!-- Increased font size for list items -->
+                            <p class="text-base"><strong>Profitability Impact:</strong> Higher surrender value payouts may initially compress margins and require revisions to product pricing models.</p>
+                            <p class="text-base"><strong>Operational Overhaul:</strong> New premium collection rules and tech mandates demand significant investment and process re-engineering.</p>
+                            <p class="text-base"><strong>Increased Competition:</strong> Composite licenses will intensify market competition, potentially putting pressure on specialized insurers.</p>
                         </div>
                     </div>
                 </div>
@@ -484,7 +529,8 @@
                         </div>
                         <h3 class="text-2xl font-bold text-purple-700">Liberalized FDI: A Global Invitation</h3>
                     </div>
-                    <ul class="list-disc space-y-2">
+                    <!-- Increased font size for list items -->
+                    <ul class="list-disc space-y-2 text-base">
                         <li>Proposed 100% FDI limit to attract significant foreign capital and expertise.</li>
                         <li>Aims to intensify competition and spur product innovation.</li>
                         <li>Crucial condition: All premiums collected must be invested within India.</li>
@@ -497,7 +543,8 @@
                         </div>
                         <h3 class="text-2xl font-bold text-indigo-700">Vision: "Insurance for All by 2047"</h3>
                     </div>
-                    <ul class="list-disc space-y-2">
+                    <!-- Increased font size for list items -->
+                    <ul class="list-disc space-y-2 text-base">
                         <li>The industry's ambitious north star for universal insurance coverage.</li>
                         <li>Driven by a comprehensive regulatory overhaul and digital transformation.</li>
                         <li>Focuses on creating a customer-centric, accessible, and inclusive ecosystem.</li>
@@ -507,11 +554,14 @@
         </section>
 
         <section id="competitive-dynamics" class="mb-20 md:mb-28">
-            <h2 class="text-4xl font-bold text-center section-title">The Shifting Tides of Competition</h2>
-            <p class="max-w-4xl mx-auto text-center text-lg md:text-xl leading-relaxed text-gray-700 mb-12">
+            <!-- Increased font size for section title -->
+            <h2 class="text-5xl font-bold text-center section-title">The Shifting Tides of Competition</h2>
+            <!-- Increased max-width and font size for section description -->
+            <p class="max-w-5xl mx-auto text-center text-xl md:text-2xl leading-relaxed text-gray-700 mb-12">
                 The Indian life insurance market is characterized by a dynamic competitive environment, with both public and private sector players striving for market share and innovation. Below, we delve into key financial metrics comparing their performance.
             </p>
-            <div class="grid grid-cols-1 gap-8 max-w-6xl mx-auto">
+            <!-- Increased max-width for competitive dynamics charts -->
+            <div class="grid grid-cols-1 gap-8 max-w-7xl mx-auto">
                 <div class="chart-card lg:col-span-1">
                     <h3 class="text-xl font-semibold mb-1 text-center">The AUM Battleground: A Shifting Balance of Power</h3>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -534,7 +584,8 @@
                             </div>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-600 mt-4 text-center">
+                    <!-- Increased font size for chart card descriptions -->
+                    <p class="text-base text-gray-600 mt-4 text-center">
                         A compelling story of asset accumulation is evident. While LIC still commands the lion's share of Assets Under Management (AUM), the private sector's slice is visibly growing from 2023 to 2024. The reason is clear from the growth rates: private players are expanding their AUM at more than double the rate of LIC (22.2% vs 9.4%). This signifies a crucial strategic shift, as private insurers' focus on market-linked products and agile investment strategies attracts wealth at a much faster pace, fundamentally altering the industry's long-term financial landscape.
                     </p>
                 </div>
@@ -547,7 +598,8 @@
                             </div>
                         </div>
                         <div class="w-full">
-                             <p class="text-sm text-gray-600 text-center">
+                             <!-- Increased font size for chart card descriptions -->
+                             <p class="text-base text-gray-600 text-center">
                                 A critical story of market evolution unfolds. While LIC's total premium income remains substantial, its growth trajectory has flattened significantly, showing near-zero growth in FY24. In stark contrast, private players demonstrate relentless upward momentum in both premium income and a consistently high growth rate of around 15%. A powerful shift is clear: the private sector is the new engine of growth, rapidly closing the gap with the state-owned behemoth.
                             </p>
                         </div>
@@ -562,7 +614,8 @@
                             </div>
                         </div>
                         <div class="w-full">
-                            <p class="text-sm text-gray-600 text-center">
+                            <!-- Increased font size for chart card descriptions -->
+                            <p class="text-base text-gray-600 text-center">
                                 LIC's challenge in attracting new customers is clear. While the overall industry's average New Business Premium (NBP) continues to rise, LIC's NBP saw a decline in FY2024. The data suggests that private insurers are more effectively capturing the imagination and wallets of new customers through innovative products and distribution channels, outpacing the traditional strategies of the public sector giant.
                             </p>
                         </div>
@@ -571,25 +624,26 @@
             </div>
 
             <div class="grid grid-cols-1 gap-8 mt-12">
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">LIC's Enduring Dominance</h3>
-                    <p>The Life Insurance Corporation of India (LIC) continues to hold a dominant position, with a substantial 62.58% market share by First Year Premium Income (FYPI) in FY 2022-23 and 72% of total Assets Under Management (AUM) as of March 2024. Its extensive agent network and brand trust are key strengths.</p>
+                <!-- Increased padding and adjusted heading/paragraph font sizes for story cards -->
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">LIC's Enduring Dominance</h3>
+                    <p class="text-base">The Life Insurance Corporation of India (LIC) continues to hold a dominant position, with a substantial 62.58% market share by First Year Premium Income (FYPI) in FY 2022-23 and 72% of total Assets Under Management (AUM) as of March 2024. Its extensive agent network and brand trust are key strengths.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Private Insurers' Rising Trajectory</h3>
-                    <p>Prominent private sector players like HDFC Life, ICICI Prudential Life, SBI Life, and Max Life Insurance are rapidly expanding. They collectively recorded a 15% premium growth in FY24, significantly higher than the 0.23% for public sector insurers. This is driven by their agility, digital adoption, and targeted product innovation, especially in Unit-Linked Insurance Plans (ULIPs).</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Private Insurers' Rising Trajectory</h3>
+                    <p class="text-base">Prominent private sector players like HDFC Life, ICICI Prudential Life, SBI Life, and Max Life Insurance are rapidly expanding. They collectively recorded a 15% premium growth in FY24, significantly higher than the 0.23% for public sector insurers. This is driven by their agility, digital adoption, and targeted product innovation, especially in Unit-Linked Insurance Plans (ULIPs).</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Strategic Mergers and Partnerships</h3>
-                    <p>Mergers like HDFC Life and Exide Life (2024) are enhancing distribution networks and product offerings. The market now comprises 26 life insurers, 25 general insurers, and 8 standalone health insurers, indicating consolidation and increased operational synergies.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Strategic Mergers and Partnerships</h3>
+                    <p class="text-base">Mergers like HDFC Life and Exide Life (2024) are enhancing distribution networks and product offerings. The market now comprises 26 life insurers, 25 general insurers, and 8 standalone health insurers, indicating consolidation and increased operational synergies.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Shifting Power Dynamics</h3>
-                    <p>While LIC benefits from its legacy, private insurers are gaining traction through bancassurance partnerships and technological advancements like AI-driven claims processing. The decline in LIC's group business further highlights the private sector's outperformance.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Shifting Power Dynamics</h3>
+                    <p class="text-base">While LIC benefits from its legacy, private insurers are gaining traction through bancassurance partnerships and technological advancements like AI-driven claims processing. The decline in LIC's group business further highlights the private sector's outperformance.</p>
                 </div>
-                <div class="story-card p-6 md:p-8">
-                    <h3 class="text-2xl font-bold mb-3">Impact of Regulatory Changes</h3>
-                    <p>The recent increase in Foreign Direct Investment (FDI) limit to 100% is expected to inject capital, stimulate product innovation, and expand coverage, intensifying competition and fostering a more dynamic industry. This also strengthens consumer protections.</p>
+                <div class="story-card p-8 md:p-10">
+                    <h3 class="text-2xl md:text-3xl font-bold mb-3">Impact of Regulatory Changes</h3>
+                    <p class="text-base">The recent increase in Foreign Direct Investment (FDI) limit to 100% is expected to inject capital, stimulate product innovation, and expand coverage, intensifying competition and fostering a more dynamic industry. This also strengthens consumer protections.</p>
                 </div>
             </div>
         </section>
