@@ -22,11 +22,17 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lora:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        /* Base styles are defined here. These apply to all screen sizes unless overridden by responsive utilities. */
+        /* Apply box-sizing: border-box globally for consistent element sizing */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        /* Explicitly reset default margin and padding on the body */
         body {
             font-family: 'Lora', serif;
             background-color: #F8F5F2;
             color: #4A4A4A;
+            margin: 0; /* Ensures no default body margin */
+            padding: 0; /* Ensures no default body padding */
         }
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Playfair Display', serif;
@@ -240,8 +246,8 @@
     </header>
 
     <!-- The `container`, `mx-auto`, and `px-6` classes create a centered, flexible-width container with padding. -->
-    <!-- Decreased overall horizontal padding and increased vertical padding for main content -->
-    <main class="container mx-auto px-4 py-16 md:px-8 lg:py-24">
+    <!-- Adjusted overall horizontal padding for main content: px-0 on small, then increasing responsively -->
+    <main class="container mx-auto px-0 sm:px-4 md:px-8 lg:px-12 py-16 md:py-24">
 
         <section id="introduction" class="mb-20 md:mb-28">
             <!-- Increased font size for section title -->
@@ -661,7 +667,7 @@
             // All data is centrally located for easy management.
             const data = {
                 financialAggregates: {
-                    labels: ['2019-20', '2020-21', '2021-22', '2022-23', '2023-24'],
+                    labels: ['2019-20', '2020-21', '2021-22', '2021-23', '2023-24'],
                     totalPremium: [572910, 628731, 692614, 782503, 829929],
                     newPoliciesIssued: [2703, 2748, 2947, 3302, 3651],
                     aum: [3100000, 3400000, 3800000, 4200000, 4500000],
