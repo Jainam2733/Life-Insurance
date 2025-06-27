@@ -1387,7 +1387,7 @@
                     const worldData = data.penetrationDensityGlobal.countries.find(c => c.name === 'World');
                     if (worldData) {
                         // Adjusted coordinates to move the bubble to the upper right corner
-                        const worldBubbleCoords = projection([120, -70]); 
+                        const worldBubbleCoords = projection([90, -70]); 
 
                         const worldBubble = svg.append("g")
                             .attr("transform", `translate(${worldBubbleCoords[0]}, ${worldBubbleCoords[1]})`)
