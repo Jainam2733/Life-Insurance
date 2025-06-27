@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -1386,11 +1386,24 @@
 
                     const worldData = data.penetrationDensityGlobal.countries.find(c => c.name === 'World');
                     if (worldData) {
-                        // Adjusted coordinates to move the bubble to the upper right corner
-                        const worldBubbleCoords = projection([90, -70]); 
+                        // Calculate bubble position based on container width/height for top-right corner
+                        const bubbleX = width - 60; // 60px from the right edge
+                        const bubbleY = 60;  // 60px from the top edge
+
+                        // Determine font sizes dynamically
+                        let bubbleTitleFontSize = "11px";
+                        let bubbleDataFontSize = "10px";
+                        if (width < 600) {
+                            bubbleTitleFontSize = "10px";
+                            bubbleDataFontSize = "9px";
+                        }
+                        if (width < 400) {
+                            bubbleTitleFontSize = "9px";
+                            bubbleDataFontSize = "8px";
+                        }
 
                         const worldBubble = svg.append("g")
-                            .attr("transform", `translate(${worldBubbleCoords[0]}, ${worldBubbleCoords[1]})`)
+                            .attr("transform", `translate(${bubbleX}, ${bubbleY})`)
                             .attr("class", "world-bubble")
                             .style("pointer-events", "all") 
                             .on("mouseover", (event) => {
@@ -1415,7 +1428,7 @@
                         worldBubble.append("text")
                             .attr("y", -15)
                             .attr("text-anchor", "middle")
-                            .style("font-size", "11px")
+                            .style("font-size", bubbleTitleFontSize)
                             .style("font-weight", "bold")
                             .style("fill", "#FFF") 
                             .text("World Average");
@@ -1423,14 +1436,14 @@
                         worldBubble.append("text")
                             .attr("y", 2)
                             .attr("text-anchor", "middle")
-                            .style("font-size", "10px")
+                            .style("font-size", bubbleDataFontSize)
                             .style("fill", "#FFF")
                             .text(`Penetration: ${worldData.penetration}%`);
 
                         worldBubble.append("text")
                             .attr("y", 17)
                             .attr("text-anchor", "middle")
-                            .style("font-size", "10px")
+                            .style("font-size", bubbleDataFontSize)
                             .style("fill", "#FFF")
                             .text(`Density: $${worldData.density.toLocaleString()}`);
                     }
